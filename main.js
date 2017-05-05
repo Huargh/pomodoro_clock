@@ -1,3 +1,5 @@
+var timeHandler;
+
 $( document ).ready($("#timeType").html("Work"));
 
 $('.settime').click(function() {
@@ -9,8 +11,6 @@ $('.settime').click(function() {
     var currTime = parseInt($('#playtime').text().trim());
     currentClick = "play"
   }
-  // alert($(this).parent().parent().attr("class"));
-
 
   if ($(this).attr("class").indexOf("minus") !== -1) {
     currTime--;
@@ -37,12 +37,13 @@ var timerRunning = false;
 $('#time').click(function() {
   var display;
   if (timerRunning) {
-    
+    clearInterval(timeHandler);
+    timerRunning = false;
   } else { //timer is stopped
-    timerRunning = true;
     var duration = parseInt($('#time').text().substring(0, 2)) * 60 + parseInt($('#time').text().substring(3, 5));
     display = document.querySelector('#time');
     startTimer(duration, display);
+    timerRunning = true;
   }
 });
 
@@ -67,5 +68,5 @@ function startTimer(duration, display) {
     };
     // we don't want to wait a full second before the timer starts
     timer();
-    setInterval(timer, 1000);
+    timeHandler = setInterval(timer, 1000);
 }
