@@ -1,4 +1,6 @@
-$('button').click(function() {
+$( document ).ready($("#timeType").html("Work"));
+
+$('.settime').click(function() {
   var currentClick = ""
   if (($(this).parent().parent().attr("class")).indexOf("work") !== -1) {
     var currTime = parseInt($('#worktime').text().trim());
@@ -24,37 +26,46 @@ $('button').click(function() {
   // Update current timer field
   if (currentClick === "work") {
     $("#worktime").html(currTime);
+    $("#time").html(currTime + ":00");
   } else if (currentClick === "play") {
     $("#playtime").html(currTime);
   }
 });
 
-// // Set the date we're counting down to
-// var countDownDate = new Date();
-// countDownDate = countDownDate.setMinutes(countDownDate.getMinutes() + 30);
-//
-// // Update the count down every 1 second
-// var x = setInterval(function() {
-//
-//   // Get todays date and time
-//   var now = new Date().getTime();
-//
-//   // Find the distance between now an the count down date
-//   var distance = countDownDate - now;
-//
-//   // Time calculations for days, hours, minutes and seconds
-//   var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//   var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//   var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//   var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-//
-//   // Display the result in the element with id="demo"
-//   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-//   + minutes + "m " + seconds + "s ";
-//
-//   // If the count down is finished, write some text
-//   if (distance < 0) {
-//     clearInterval(x);
-//     document.getElementById("demo").innerHTML = "EXPIRED";
-//   }
-// }, 1000);
+var timerRunning = false;
+
+$('#time').click(function() {
+  var display;
+  if (timerRunning) {
+    
+  } else { //timer is stopped
+    timerRunning = true;
+    var duration = parseInt($('#time').text().substring(0, 2)) * 60 + parseInt($('#time').text().substring(3, 5));
+    display = document.querySelector('#time');
+    startTimer(duration, display);
+  }
+});
+
+function startTimer(duration, display) {
+    var start = Date.now(),
+        diff,
+        minutes,
+        seconds;
+    function timer() {
+        // get the number of seconds that have elapsed since
+        // startTimer() was called
+        diff = duration - (((Date.now() - start) / 1000) | 0);
+
+        // does the same job as parseInt truncates the float
+        minutes = (diff / 60) | 0;
+        seconds = (diff % 60) | 0;
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+    };
+    // we don't want to wait a full second before the timer starts
+    timer();
+    setInterval(timer, 1000);
+}

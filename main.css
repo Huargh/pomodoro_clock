@@ -28,3 +28,7 @@ body {
   padding: 40px 20px;
   background-color: #FFFFFF;
 }
+#timeType {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
