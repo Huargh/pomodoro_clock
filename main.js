@@ -1,9 +1,14 @@
 var timeHandler;
+var timerRunning = false;
 
 $( document ).ready($("#timeType").html("Work"));
 
 $('.settime').click(function() {
-  var currentClick = ""
+  var currentClick = "";
+  if (timerRunning) {
+    clearInterval(timeHandler);
+    timerRunning = false;
+  }
   if (($(this).parent().parent().attr("class")).indexOf("work") !== -1) {
     var currTime = parseInt($('#worktime').text().trim());
     currentClick = "work";
@@ -18,28 +23,30 @@ $('.settime').click(function() {
     currTime++;
   };
   if (currTime < 0) {
-    currTime = 59;
-  } else if (currTime > 59) {
+    currTime = 60;
+  } else if (currTime > 60) {
     currTime = 0;
   }
 
   // Update current timer field
   if (currentClick === "work") {
     $("#worktime").html(currTime);
+    if (currTime < 10) {
+      $("#time").html("0" + currTime + ":00");
+    } else {
     $("#time").html(currTime + ":00");
+  }
   } else if (currentClick === "play") {
     $("#playtime").html(currTime);
   }
 });
-
-var timerRunning = false;
 
 $('#time').click(function() {
   var display;
   if (timerRunning) {
     clearInterval(timeHandler);
     timerRunning = false;
-  } else { //timer is stopped
+  } else {
     var duration = parseInt($('#time').text().substring(0, 2)) * 60 + parseInt($('#time').text().substring(3, 5));
     display = document.querySelector('#time');
     startTimer(duration, display);
@@ -63,10 +70,31 @@ function startTimer(duration, display) {
 
         minutes = minutes < 10 ? "0" + minutes : minutes;
         seconds = seconds < 10 ? "0" + seconds : seconds;
-
         display.textContent = minutes + ":" + seconds;
+
+        if (minutes === '00' && seconds < '00') {
+          toggleTime();
+        }
     };
     // we don't want to wait a full second before the timer starts
     timer();
     timeHandler = setInterval(timer, 1000);
+}
+
+function toggleTime() {
+  var timeType = $('#timeType').text();
+  var duration;
+  var display = document.querySelector('#time');
+  clearInterval(timeHandler);
+  if (timeType === "Work") {
+    $("#timeType").html("Play");
+    duration = parseInt($("#playtime").text()) * 60;
+
+    startTimer(duration, display)
+  }
+  else if (timeType ==="Play") {
+    $("#timeType").html("Work");
+    duration = parseInt($("#worktime").text()) * 60;
+    startTimer(duration, display)
+  }
 }
