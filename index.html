@@ -4,13 +4,16 @@
   <meta charset="utf-8" />
   <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
   <link type="text/css" href="main.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Rancho|Shadows+Into+Light+Two" rel="stylesheet">
   <title>Pomodoro Clock</title>
 </head>
 <body>
   <div class="container">
+    <div class="row">
     <div id="cocktitle">
       <h1>Pomodoro Clock</h1>
     </div>
+  </div>
     <div class="clock">
       <div class="row">
         <div class="col-xs-6 text-center">
@@ -23,15 +26,15 @@
       <div class="row" id="timesetter">
         <div class="col-xs-6">
           <div class="row workcol">
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <button type="button" id="workless" class="settime btn btn-xs btn-basic minus">
                 <span class="glyphicon glyphicon-minus"></span>&nbsp;
               </button>
             </div>
-            <div class="col-xs-8">
-              <p id="worktime">1</p>
+            <div class="col-xs-4">
+              <p id="worktime">30</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <button type="button" id="workmore" class="settime btn btn-xs btn-basic plus">
                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
               </button>
@@ -40,15 +43,15 @@
         </div>
         <div class="col-xs-6">
           <div class="row playcol">
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <button type="button" id="playless" class="settime btn btn-xs btn-basic minus">
                 <span class="glyphicon glyphicon-minus"></span>&nbsp;
               </button>
             </div>
-            <div class="col-xs-8">
-              <p id="playtime">1</p>
+            <div class="col-xs-4">
+              <p id="playtime">30</p>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-4">
               <button type="button" id="playmore" class="settime btn btn-xs btn-basic plus">
                 <span class="glyphicon glyphicon-plus"></span>&nbsp;
               </button>
@@ -57,13 +60,18 @@
         </div>
       </div> <!-- timesetter -->
       <div class="row">
+        <div class="col-xs-12">
+          <p></p>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-xs-12 mt-3">
           <p id="timeType"></p>
         </div>
       </div>
       <div class="row"> <!-- timer -->
         <div class="col-xs-12">
-          <button class="btn" id="time">00:05</button>
+          <button class="btn settime" id="time">30:00</button>
         </div>
       </div>
     </div> <!-- clock -->

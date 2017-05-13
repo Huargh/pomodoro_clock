@@ -1,7 +1,8 @@
 var timeHandler;
 var timerRunning = false;
+var audio = new Audio("https://www.freesound.org/data/previews/321/321937_4665239-lq.mp3");
 
-$( document ).ready($("#timeType").html("Work"));
+$( document ).ready($("#timeType").html("work"));
 
 $('.settime').click(function() {
   var currentClick = "";
@@ -34,8 +35,8 @@ $('.settime').click(function() {
     if (currTime < 10) {
       $("#time").html("0" + currTime + ":00");
     } else {
-    $("#time").html(currTime + ":00");
-  }
+      $("#time").html(currTime + ":00");
+    }
   } else if (currentClick === "play") {
     $("#playtime").html(currTime);
   }
@@ -55,46 +56,48 @@ $('#time').click(function() {
 });
 
 function startTimer(duration, display) {
-    var start = Date.now(),
-        diff,
-        minutes,
-        seconds;
-    function timer() {
-        // get the number of seconds that have elapsed since
-        // startTimer() was called
-        diff = duration - (((Date.now() - start) / 1000) | 0);
+  var start = Date.now(),
+  diff,
+  minutes,
+  seconds;
+  function timer() {
+    // get the number of seconds that have elapsed since
+    // startTimer() was called
+    diff = duration - (((Date.now() - start) / 1000) | 0);
 
-        // does the same job as parseInt truncates the float
-        minutes = (diff / 60) | 0;
-        seconds = (diff % 60) | 0;
+    // does the same job as parseInt truncates the float
+    minutes = (diff / 60) | 0;
+    seconds = (diff % 60) | 0;
 
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        display.textContent = minutes + ":" + seconds;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    display.textContent = minutes + ":" + seconds;
 
-        if (minutes === '00' && seconds < '00') {
-          toggleTime();
-        }
-    };
-    // we don't want to wait a full second before the timer starts
-    timer();
-    timeHandler = setInterval(timer, 1000);
+    if (minutes === '00' && seconds < '00') {
+      toggleTime();
+    }
+  };
+  // we don't want to wait a full second before the timer starts
+  timer();
+  timeHandler = setInterval(timer, 1000);
 }
 
 function toggleTime() {
   var timeType = $('#timeType').text();
+  clearInterval(timeHandler);
+  if (timeType === "work") {
+    switchTimerTo("play", "#playtime");
+  }
+  else if (timeType ==="play") {
+    switchTimerTo("work", "#worktime");
+  }
+}
+
+function switchTimerTo(newTimer, timeID) {
   var duration;
   var display = document.querySelector('#time');
-  clearInterval(timeHandler);
-  if (timeType === "Work") {
-    $("#timeType").html("Play");
-    duration = parseInt($("#playtime").text()) * 60;
-
-    startTimer(duration, display)
-  }
-  else if (timeType ==="Play") {
-    $("#timeType").html("Work");
-    duration = parseInt($("#worktime").text()) * 60;
-    startTimer(duration, display)
-  }
+  audio.play();
+  $("#timeType").html(newTimer);
+  duration = parseInt($(timeID).text()) * 60;
+  startTimer(duration, display)
 }
